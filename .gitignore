@@ -1,1 +1,17 @@
-/target
+# Environment variables (секреты)
+.env
+
+# Rust build artifacts (временные файлы сборки)
+/target/
+
+# IDE (настройки Visual Studio Code)
+.vscode/
+
+# Database files (бинарные файлы БД)
+*.db
+*.db-shm
+*.db-wal
+
+# OS garbage (мусор от Windows/Mac)
+.DS_Store
+Thumbs.db
