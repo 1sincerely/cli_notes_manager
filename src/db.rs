@@ -1,6 +1,6 @@
 use dotenvy::dotenv;
 use std::env;
-use sqlx::{pool::maybe::MaybePoolConnection::PoolConnection, sqlite::{SqlitePool, SqlitePoolOptions}};
+use sqlx::sqlite::{SqlitePool, SqlitePoolOptions};
 
 pub async fn create_pool() -> Result<SqlitePool, sqlx::Error> {
     dotenv().ok();
@@ -43,3 +43,18 @@ pub async fn add_note(pool: &SqlitePool, title: &str, content: &str) -> Result<(
         .await?;
     Ok(())
 }
+
+pub async fn list_notes(pool: &SqlitePool) -> Result<(), sqlx::Error>{
+    todo!()
+}
+
+pub async fn del_note(pool: &SqlitePool, id: &i32) -> Result<(), sqlx::Error>{
+    todo!()
+}
+
+pub async fn update_note(pool: &SqlitePool) -> Result<(), sqlx::Error>{
+    todo!()
+}
+
+// tags . . .
+
