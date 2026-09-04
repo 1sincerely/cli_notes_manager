@@ -65,9 +65,5 @@ pub async fn del_note(pool: &SqlitePool, id: &i32) -> Result<u64, sqlx::Error> {
     Ok(result.rows_affected())
 }
 
-pub async fn update_note(pool: &SqlitePool) -> Result<(), sqlx::Error>{ // id, new_context
-    todo!()
-}
-
 // tags . . .
 
