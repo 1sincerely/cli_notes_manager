@@ -1,7 +1,9 @@
+use crate::models::Note;
 use dotenvy::dotenv;
+use sqlx::pool::maybe::MaybePoolConnection::PoolConnection;
 use std::env;
 use sqlx::sqlite::{SqlitePool, SqlitePoolOptions};
-
+use sqlx::query_as;
 pub async fn create_pool() -> Result<SqlitePool, sqlx::Error> {
     dotenv().ok();
 
@@ -44,15 +46,26 @@ pub async fn add_note(pool: &SqlitePool, title: &str, content: &str) -> Result<(
     Ok(())
 }
 
-pub async fn list_notes(pool: &SqlitePool) -> Result<(), sqlx::Error>{
-    todo!()
+pub async fn list_notes(pool: &SqlitePool) -> Result<Vec<Note>, sqlx::Error>{
+    query_as::<_, Note>("SELECT id, title, content, created_at, updated_at FROM notes ORDER BY created_at DESC")
+        .fetch_all(pool)
+        .await
 }
 
-pub async fn del_note(pool: &SqlitePool, id: &i32) -> Result<(), sqlx::Error>{
-    todo!()
+pub async fn del_note(pool: &SqlitePool, id: &i32) -> Result<u64, sqlx::Error> {
+    let result = sqlx::query(
+        r#"
+        DELETE FROM notes WHERE id = $1
+        "#
+    )
+        .bind(id)
+        .execute(pool)
+        .await?;
+
+    Ok(result.rows_affected())
 }
 
-pub async fn update_note(pool: &SqlitePool) -> Result<(), sqlx::Error>{
+pub async fn update_note(pool: &SqlitePool) -> Result<(), sqlx::Error>{ // id, new_context
     todo!()
 }
 

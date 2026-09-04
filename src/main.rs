@@ -7,6 +7,8 @@ use clap::Parser;
 use db::{create_pool, init_db, add_note};
 // use models::Note;
 use cli::{Cli, Commands};
+use models::Note;
+
 
 #[tokio::main]
 async fn main() -> Result<(), sqlx::Error> {
@@ -18,10 +20,12 @@ async fn main() -> Result<(), sqlx::Error> {
             add_note(&pool, &title, &content).await?;
         }
         Commands::List => {
-            db::list_notes(&pool).await?;
+            let notes: Vec<Note> = db::list_notes(&pool).await?;
+            service::show_notes(&notes).await;
         }
-        Commands::Remove { id } => {
-            db::del_note(&pool, &id).await?;
+        Commands::Remove { id } => { 
+            let rows: u64 = db::del_note(&pool, &id).await?;
+            service::remove_handle(&rows).await;
         }
     }
 
