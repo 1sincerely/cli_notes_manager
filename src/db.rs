@@ -1,6 +1,5 @@
 use crate::models::Note;
 use dotenvy::dotenv;
-use sqlx::pool::maybe::MaybePoolConnection::PoolConnection;
 use std::env;
 use sqlx::sqlite::{SqlitePool, SqlitePoolOptions};
 use sqlx::query_as;

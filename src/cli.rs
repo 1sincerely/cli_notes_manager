@@ -1,9 +1,11 @@
-use clap::{Parser, Subcommand};
+use clap::{Parser, Subcommand, ValueEnum};
 
 #[derive(Parser)]
 pub struct Cli {
+    #[arg(long, default_value = "cli")]
+    pub mode: Mode,
     #[command(subcommand)]
-    pub command: Commands,
+    pub command: Option<Commands>,
 }
 
 #[derive(Subcommand, Debug)]
@@ -20,4 +22,9 @@ pub enum Commands {
         #[arg(short, long)]
         id: i32,
     },
+}
+#[derive(Debug, Clone, ValueEnum)]
+pub enum Mode {
+    Web,
+    Cli,
 }
