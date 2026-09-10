@@ -17,7 +17,7 @@ pub async fn run_cli(cli: Cli, pool: SqlitePool) -> Result<(), AppError>{
             show_notes(&notes).await;
         }
         Some(Commands::Remove { id }) => { 
-            let rows: u64 = db::del_note(&pool, &id).await?;
+            let rows: u64 = db::del_note(&pool, id).await?;
             remove_handle(&rows).await;
         }
         None => {

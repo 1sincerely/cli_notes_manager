@@ -2,7 +2,8 @@ use crate::models::Note;
 use dotenvy::dotenv;
 use std::env;
 use sqlx::sqlite::{SqlitePool, SqlitePoolOptions};
-use sqlx::query_as;
+use sqlx::{Sqlite, query_as};
+
 pub async fn create_pool() -> Result<SqlitePool, sqlx::Error> {
     dotenv().ok();
 
@@ -51,7 +52,19 @@ pub async fn list_notes(pool: &SqlitePool) -> Result<Vec<Note>, sqlx::Error>{
         .await
 }
 
-pub async fn del_note(pool: &SqlitePool, id: &i32) -> Result<u64, sqlx::Error> {
+pub async fn get_note(pool: &SqlitePool, id: i64) -> Result<Note, sqlx::Error> {
+    query_as::<_, Note>(
+        r#"
+        SELECT * FROM notes  
+        WHERE id = $1
+        "#
+    )
+        .bind(id)
+        .fetch_one(pool)
+        .await
+}
+
+pub async fn del_note(pool: &SqlitePool, id: i64) -> Result<u64, sqlx::Error> {
     let result = sqlx::query(
         r#"
         DELETE FROM notes WHERE id = $1
@@ -64,5 +77,19 @@ pub async fn del_note(pool: &SqlitePool, id: &i32) -> Result<u64, sqlx::Error> {
     Ok(result.rows_affected())
 }
 
+pub async fn update_note(pool: &SqlitePool, id: i64, content: String) -> Result<u64, sqlx::Error> {
+    let result = sqlx::query(
+        r#"
+        UPDATE notes
+        SET content = $1
+        WHERE id = $2
+        "#
+    )
+        .bind(content)
+        .bind(id)
+        .execute(pool)
+        .await?;
+    Ok(result.rows_affected())
+}
 // tags . . .
 

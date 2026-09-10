@@ -18,7 +18,7 @@ use error::AppError;
 async fn main() -> Result<(), AppError> {
     let pool: SqlitePool = create_pool().await?;
     init_db(&pool).await?;
-    
+
     let cli = Cli::parse();
 
     service::dispatch(cli, pool).await?;

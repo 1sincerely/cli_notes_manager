@@ -20,7 +20,7 @@ pub enum Commands {
     List,
     Remove {
         #[arg(short, long)]
-        id: i32,
+        id: i64,
     },
 }
 #[derive(Debug, Clone, ValueEnum)]
