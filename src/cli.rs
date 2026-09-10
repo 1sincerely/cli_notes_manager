@@ -18,6 +18,12 @@ pub enum Commands {
         content: String,
     },
     List,
+    Update {
+        #[arg(short, long)]
+        id: i64,
+        #[arg(short, long)]
+        content: String,
+    },
     Remove {
         #[arg(short, long)]
         id: i64,

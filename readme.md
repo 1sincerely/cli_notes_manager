@@ -23,3 +23,19 @@ A simple and lightweight note manager with both CLI and web interfaces, built in
 ### Prerequisites
 
 - [Rust](https://www.rust-lang.org/tools/install) (latest stable version)
+
+
+### Usage
+
+The application can be run in two modes: **CLI** (default) and **Web**.
+
+### CLI Mode
+
+Manage your notes directly from the terminal.
+
+### Web Mode
+
+Manage your notes via get/post/put/delete queries
+
+
+

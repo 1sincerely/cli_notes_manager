@@ -20,6 +20,9 @@ pub async fn run_cli(cli: Cli, pool: SqlitePool) -> Result<(), AppError>{
             let rows: u64 = db::del_note(&pool, id).await?;
             remove_handle(&rows).await;
         }
+        Some(Commands::Update{ id, content}) => {
+            db::update_note(&pool, id, content).await?;
+        }
         None => {
             println!("Enter a command please!");
         }
